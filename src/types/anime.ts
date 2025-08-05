@@ -1,0 +1,22 @@
+export type Anime = {
+	mal_id: number;
+	title: string;
+	synopsis?: string | null;
+	image_url?: string | null;
+	score?: number | null;
+	episodes?: number | null;
+	year?: number | null;
+	genres?: string[] | null;
+	updated_at?: string | null;
+	is_active?: boolean | null;
+	themes?: string[] | null;
+	alt_titles?: string[] | null;
+	studio_id?: number | null;
+	studio_name?: string | null;
+	status?: string | null;
+	aired?: string | null;
+	premiered?: string | null;
+	duration?: string | null;
+	rating?: string | null;
+	start_date?: string | null;
+};
