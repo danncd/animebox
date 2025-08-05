@@ -2,10 +2,11 @@
 
 import { fetchTrendingAnime } from "@/actions/anime/client.actions";
 import AnimeCard from "@/components/anime/AnimeCard";
+import { Anime } from "@/types/anime";
 import { useEffect, useState } from "react";
 
 const TrendingAnime = () => {
-	const [trendingAnime, setTrendingAnime] = useState<any[]>([]);
+	const [trendingAnime, setTrendingAnime] = useState<Anime[]>([]);
 
 	useEffect(() => {
 		async function loadTrending() {
