@@ -63,6 +63,12 @@ export async function signup(_: ActionState, formData: FormData): Promise<Action
 	});
 
 	if (insertError) {
+		if (
+			insertError.message.includes("duplicate key value") &&
+			insertError.message.includes("profiles_username_key")
+		) {
+			return { error: "Username is already taken. Please choose another." };
+		}
 		return { error: insertError.message };
 	}
 

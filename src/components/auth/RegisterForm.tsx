@@ -128,8 +128,8 @@ const RegisterForm = () => {
 							{state.error}
 						</p>
 					)}
-					<Button className="w-full" color="blue">
-						Login
+					<Button className="w-full" color="blue" type="submit">
+						Register
 					</Button>
 					<span>
 						Already have an account?{" "}
