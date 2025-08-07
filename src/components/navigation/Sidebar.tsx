@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import HamburgerIcon from "../ui/HamburgerIcon";
 import { useRouter } from "next/navigation";
 import { getAnimeSeason } from "@/utils/getAnimeSeason";
+import Image from "next/image";
 
 const Sidebar = () => {
 
@@ -53,7 +54,10 @@ const Sidebar = () => {
                 <div className="flex items-center gap-5 cursor-pointer h-16 p-5 mb-5" onClick={closeSidebar}>
                     <Link href={`/`} className="flex items-center gap-5 cursor-pointer h-16">
                         <HamburgerIcon/>
-                        <span className="fixed font-bold text-xl text-center w-full left-0">ANIMEBOX</span>
+                        <div className="fixed font-bold text-xl text-center w-full left-0 flex flex-row gap-2 justify-center pl-2">
+                            <Image src="/logo.png" width={28} height={28} draggable={false} alt="Logo" />
+                            <span>ANIMEBOX</span>
+                        </div>
                     </Link>
                 </div>
                 <div>
@@ -76,6 +80,12 @@ const Sidebar = () => {
                     <div className="px-5 flex flex-col gap-3">
                         <Link href={`/anime/season/${season}-${year}`} onClick={closeSidebar}>
                             <span className="px-1 font-[550] text-base">{season} {year}</span>
+                        </Link>
+                    </div>
+                    <hr className="mx-2 border-t-1.5 mt-3 mb-3 rounded-xs border-gray-300" />
+                    <div className="px-5 flex flex-col gap-3">
+                        <Link href={`/anime/reviews`} onClick={closeSidebar}>
+                            <span className="px-1 font-[550] text-base">Recent Reviews</span>
                         </Link>
                     </div>
                 </div>

@@ -1,86 +1,70 @@
 'use client';
 
-import { fetchReviewsByAnimeId, formatDate, getOverall, getScoreColor } from "@/actions/review/actions";
+import { fetchAllReviews, fetchReviewsByAnimeId } from "@/actions/review/actions";
 import { Anime } from "@/types/anime";
 import { Review } from "@/types/review";
 import { useEffect, useState } from "react";
-import Avatar from "../ui/Avatar";
+import ReviewSectionContent from "./ReviewSectionContent";
+import { useAuth } from "@/contexts/AuthContext";
+
+type SortOption = "newest" | "oldest";
 
 type Props = {
-    anime: Anime;
-    type: "anime-page";
+    anime?: Anime;
+    type: "anime-page" | "all-reviews";
 }
 
 const ReviewSection = ({ anime, type }: Props) => {
 
     const [reviews, setReviews] = useState<Review[]>([]);
     const [loading, setLoading] = useState(true);
+    const [sortOrder, setSortOrder] = useState<SortOption>("newest");
+    const { user } = useAuth();
+
+    const mal_id = Number(anime?.mal_id);
 
     useEffect(() => {
-		const fetch = async () => {
+        const fetch = async () => {
             setLoading(true);
-			if (type == "anime-page") {
-				const data = await fetchReviewsByAnimeId(anime.mal_id);
-				setReviews(data);
-			}
+
+            if (type === "anime-page") {
+                let reviews = await fetchReviewsByAnimeId(mal_id, sortOrder);
+
+                if (user) {
+                    const userReview = reviews.find((review) => review.profile_id === user.id);
+                    reviews = reviews.filter((review) => review.profile_id !== user.id);
+
+                    if (userReview) {
+                        reviews = [userReview, ...reviews];
+                    }
+                }
+                setReviews(reviews);
+            } else if (type === "all-reviews") {
+                let reviews = await fetchAllReviews();
+                setReviews(reviews);
+            }
+
+            
             setLoading(false);
-		};
-		fetch();
-	}, [anime.mal_id, type]);
+        };
+        fetch();
+    }, [mal_id, type, sortOrder, user?.id]);
 
     return (
-        <div className="flex flex-col gap-12">
-            {reviews.map((review) => (
-                <div key={review.id} className="flex flex-col gap-4">
-                    <div className="flex flex-row gap-4">
-                        <Avatar
-                            avatarUrl={review.profiles?.avatar_url}
-                            className="w-12 h-12"
-                        />
-                        <div className="flex flex-col gap-0 justify-center">
-                            <span className="font-[600]">{review.profiles?.username}</span>
-                            {review.updated_at ? (
-                                <span className="text-sm text-gray-500">{formatDate(review.updated_at)} (Edited)</span>
-                            ) : (
-                                <span className="text-sm text-gray-500">{formatDate(review.created_at)}</span>
-                            )}
-                        </div>
-                    </div>
-                    <div className="w-full">
-                        <div className="max-w-[720px] px-4 w-full mx-auto flex flex-wrap flex-1 justify-between">
-                            {Object.entries({
-                                Animation: review.animation_score,
-                                Sound: review.sound_score,
-                                Story: review.story_score,
-                            }).map(([label, value]) => (
-                                <div key={label} className="flex flex-col items-center">
-                                    <span className={`font-bold text-xl ${getScoreColor(value)}`}>{value}</span>
-                                    <span className="text-gray-700 text-xs">{label}</span>
-                                </div>
-                            ))}
-                            <div key="overall" className="flex flex-col items-center">
-                                    <span 
-                                        className={`font-bold text-xl ${getScoreColor(getOverall(review.animation_score, review.sound_score, review.story_score))}`}
-                                    >
-                                        {getOverall(
-                                            review.story_score,
-                                            review.animation_score,
-                                            review.sound_score,
-									    )}
-                                    </span>
-                                    <span className="text-gray-700 text-xs">Overall</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p
-                        className="prose [&>p:empty]:min-h-[1rem]"
-                        dangerouslySetInnerHTML={{ __html: review.content }}
-                    />
+        <div>
+            {type != "all-reviews" && reviews.length > 0 && (
+                <div className="w-fit bg-gray-200 rounded py-[2px] px-2 mb-8">
+                    <select
+                        className="w-28 text-sm font-[550] text-gray-800 cursor-pointer focus:outline-none bg-gray-200"
+                        value={sortOrder}
+                        onChange={(e) => setSortOrder(e.target.value as SortOption)}
+                    >
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                    </select>
                 </div>
-            ))}
-            {!loading && !(reviews.length > 0) && (
-                <div className="p-4 text-gray-500 font-sm text-center">There are no reviews yet.</div>
             )}
+            <ReviewSectionContent reviewList={reviews} loading={loading} type={type}/>
         </div>
     );
 };
