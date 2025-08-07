@@ -40,7 +40,7 @@ const ReviewSection = ({ anime, type }: Props) => {
                 }
                 setReviews(reviews);
             } else if (type === "all-reviews") {
-                let reviews = await fetchAllReviews();
+                const reviews = await fetchAllReviews();
                 setReviews(reviews);
             }
 

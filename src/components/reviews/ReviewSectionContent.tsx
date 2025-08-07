@@ -18,7 +18,7 @@ const ReviewSectionContent = ({ reviewList, loading, type }: Props) => {
                         <div className="mb-2 flex flex-row items-center justify-center text-gray-700 font-[600]">
                             <Link href={`/anime/${review.mal_id}`}><h3 className="whitespace-nowrap">{review.anime?.title}</h3></Link>
                             <div className="w-full ml-5 flex flex-row gap-1 items-center justify-center">
-                                <div className="w-full h-[1.5px] rounded-full bg-gray-400"></div>
+                                <div className="w-full h-[1.5px] rounded-full bg-gray-300"></div>
                             </div>
                         </div>
                     }
@@ -44,13 +44,13 @@ const ReviewSectionContent = ({ reviewList, loading, type }: Props) => {
                                 Story: review.story_score,
                             }).map(([label, value]) => (
                                 <div key={label} className="flex flex-col items-center">
-                                    <span className={`font-bold text-xl ${getScoreColor(value)}`}>{value}</span>
+                                    <span className={`font-black text-2xl ${getScoreColor(value)}`}>{value}</span>
                                     <span className="text-gray-700 text-xs">{label}</span>
                                 </div>
                             ))}
                             <div key="overall" className="flex flex-col items-center">
                                     <span 
-                                        className={`font-bold text-xl ${getScoreColor(getOverall(review.animation_score, review.sound_score, review.story_score))}`}
+                                        className={`font-black text-2xl ${getScoreColor(getOverall(review.animation_score, review.sound_score, review.story_score))}`}
                                     >
                                         {getOverall(
                                             review.story_score,
