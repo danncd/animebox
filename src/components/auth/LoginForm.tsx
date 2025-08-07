@@ -40,7 +40,7 @@ const LoginForm = () => {
             fetchUser();
             window.location.reload();
         }
-	}, [state]);
+	}, [state, setUser]);
 
 	return (
 		<div className="px-2">

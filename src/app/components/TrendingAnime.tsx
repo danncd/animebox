@@ -1,9 +1,9 @@
 "use client";
 
 import { fetchTrendingAnime } from "@/actions/anime/client.actions";
-import AnimeCard from "@/components/anime/AnimeCard";
 import { Anime } from "@/types/anime";
 import { useEffect, useState } from "react";
+import HomepageAnimeList from "./HomepageAnimeList";
 
 const TrendingAnime = () => {
 	const [trendingAnime, setTrendingAnime] = useState<Anime[]>([]);
@@ -17,13 +17,7 @@ const TrendingAnime = () => {
 	}, []);
 
 	return (
-		<div>	
-			<div className="flex flex-row gap-4 rounded overflow-y-auto">
-				{trendingAnime.map((anime) => (
-					<AnimeCard key={anime.mal_id} anime={anime} />
-				))}
-			</div>
-		</div>
+		<HomepageAnimeList animeList={trendingAnime}/>
 	);
 };
 

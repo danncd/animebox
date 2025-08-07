@@ -26,7 +26,7 @@ const ReviewSection = ({ anime, type }: Props) => {
             setLoading(false);
 		};
 		fetch();
-	}, [anime.mal_id]);
+	}, [anime.mal_id, type]);
 
     return (
         <div className="flex flex-col gap-12">

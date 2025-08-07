@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useNavigation } from "@/contexts/NavigationContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HamburgerIcon from "../ui/HamburgerIcon";
 import { useRouter } from "next/navigation";
+import { getAnimeSeason } from "@/utils/getAnimeSeason";
 
 const Sidebar = () => {
 
@@ -12,6 +13,26 @@ const Sidebar = () => {
 
     const { isSidebarOpen, closeSidebar } = useNavigation();
     const [searchTerm, setSearchTerm] = useState("");
+    const [season, setSeason] = useState("");
+    const [year, setYear] = useState<number | "">("");
+
+    useEffect(() => {
+        const { season, year } = getAnimeSeason();
+        setSeason(season);
+        setYear(year);
+    }, [])
+
+    useEffect(() => {
+            if (isSidebarOpen) {
+                document.body.style.overflow = "hidden";
+            } else {
+                document.body.style.overflow = "";
+            }
+    
+            return () => {
+                document.body.style.overflow = "";
+            };
+        }, [isSidebarOpen]);
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === "Enter" && searchTerm.trim()) {
@@ -52,9 +73,14 @@ const Sidebar = () => {
                         </Link>
                     </div>
                     <hr className="mx-2 border-t-1.5 mt-3 mb-3 rounded-xs border-gray-300" />
+                    <div className="px-5 flex flex-col gap-3">
+                        <Link href={`/anime/season/${season}-${year}`} onClick={closeSidebar}>
+                            <span className="px-1 font-[550] text-base">{season} {year}</span>
+                        </Link>
+                    </div>
                 </div>
             </div>
-			<div className={`z-30 fixed top-0 left-0 h-screen bg-black/25 w-full transition-opacity duration-200 ease-in-out ${isSidebarOpen? "opacity-100 pointer-events-auto": "opacity-0 pointer-events-none"}`} onClick={closeSidebar}/>
+			<div className={`z-30 fixed top-0 left-0 h-screen backdrop-blur-[2px] bg-black/25 w-full transition-opacity duration-200 ease-in-out ${isSidebarOpen? "opacity-100 pointer-events-auto": "opacity-0 pointer-events-none"}`} onClick={closeSidebar}/>
         </>
     );
 };

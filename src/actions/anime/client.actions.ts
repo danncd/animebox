@@ -46,7 +46,9 @@ export async function fetchSearchedAnime(
 	query: string,
 	sort: string,
 	tags: string[],
-	page: number
+	page: number,
+	season?: string,
+	year?: number
 ): Promise<{ data: Anime[]; count: number }> {
 	const supabase = createClient();
 
@@ -87,15 +89,21 @@ export async function fetchSearchedAnime(
 		queryBuilder = queryBuilder.or(conditions.join(","));
 	}
 
+
+	if (season && year) {
+		queryBuilder = queryBuilder.ilike("premiered", `${season} ${year}`);
+	}
+
+
 	switch (sort) {
 		case "score":
 			queryBuilder = queryBuilder.order("score", { ascending: false, nullsFirst: false });
 			break;
-		case "year":
+		case "year_desc":
 			queryBuilder = queryBuilder.order("year", { ascending: false, nullsFirst: false });
 			break;
-		case "updated":
-			queryBuilder = queryBuilder.order("updated_at", { ascending: false, nullsFirst: false });
+		case "year_asc":
+			queryBuilder = queryBuilder.order("year", { ascending: true, nullsFirst: false });
 			break;
 		default:
 			queryBuilder = queryBuilder.order("score", { ascending: false, nullsFirst: false });
@@ -183,4 +191,55 @@ export async function fetchTrendingAnime(): Promise<Anime[]> {
 		console.error("Error fetching trending anime:", error);
 		return [];
 	}
+}
+
+export async function getAvailableSeasonsAndYears(): Promise<{
+	seasons: string[];
+	years: string[];
+}> {
+	const supabase = createClient();
+
+	const { data: premieredRows, error } = await supabase
+		.from("anime")
+		.select("premiered")
+		.neq("premiered", null)
+		.order("premiered", { ascending: false });
+
+	if (error) {
+		console.error("Error fetching premiered dates:", error);
+		return { seasons: [], years: [] };
+	}
+
+	const yearSet = new Set<string>();
+
+	premieredRows?.forEach(({ premiered }) => {
+		const match = premiered.trim().match(/\b(\d{4})\b/);
+		if (match) {
+			yearSet.add(match[1]);
+		}
+	});
+
+	const years = Array.from(yearSet).sort((a, b) => Number(b) - Number(a));
+	const seasons = ["Winter", "Spring", "Summer", "Fall"];
+
+	return { seasons, years };
+}
+
+export async function fetchTopSeasonalAnime(season: string, year: number) {
+	const supabase = createClient();
+
+	const { data, error } = await supabase
+		.from("anime")
+		.select("*")
+		.eq("is_active", true)
+		.ilike("premiered", `${season} ${year}`)
+		.order("score", { ascending: false, nullsFirst: false })
+		.limit(10);
+
+	if (error) {
+		console.error(`Error fetching top anime for ${season} ${year}:`, error);
+		return [];
+	}
+
+	return data;
 }
