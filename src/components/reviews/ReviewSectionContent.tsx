@@ -15,11 +15,11 @@ const ReviewSectionContent = ({ reviewList, loading, type }: Props) => {
             {reviewList.map((review) => (
                 <div key={review.id} className="flex flex-col gap-3">
                     {type === "all-reviews" &&
-                        <div className="mb-2 flex flex-row items-center justify-center text-gray-700 font-[600]">
-                            <Link href={`/anime/${review.mal_id}`}><h3 className="whitespace-nowrap">{review.anime?.title}</h3></Link>
-                            <div className="w-full ml-5 flex flex-row gap-1 items-center justify-center">
-                                <div className="w-full h-[1.5px] rounded-full bg-gray-300"></div>
-                            </div>
+                        <div className="mb-2 flex items-center text-gray-700 font-[600]">
+                            <Link href={`/anime/${review.mal_id}`}>
+                                <h3 className="flex-shrink-0">{review.anime?.title}</h3>
+                            </Link>
+                            <div className="flex-grow ml-3 h-[1.5px] bg-gray-300 rounded-full"></div>
                         </div>
                     }
                     <div className="flex flex-row gap-4">
