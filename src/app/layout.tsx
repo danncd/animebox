@@ -6,6 +6,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { getInitialUser } from "@/actions/auth/actions";
 import Footer from "@/components/ui/Footer";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {
 	title: "Animebox",
@@ -55,6 +56,7 @@ export default async function RootLayout({
 					<Navigation />
 					<div className="min-h-[100vh] w-full mx-auto pt-22 text-gray-900 ">
 						{children}
+						<Analytics/>
 						<SpeedInsights />
 					</div>
 					<Footer />
