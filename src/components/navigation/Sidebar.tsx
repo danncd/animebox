@@ -84,8 +84,14 @@ const Sidebar = () => {
                     </div>
                     <hr className="mx-2 border-t-1.5 mt-3 mb-3 rounded-xs border-gray-300" />
                     <div className="px-5 flex flex-col gap-3">
-                        <Link href={`/anime/reviews`} onClick={closeSidebar}>
-                            <span className="px-1 font-[550] text-base">Recent Reviews</span>
+                        <Link href={`/reviews`} onClick={closeSidebar}>
+                            <span className="px-1 font-[550] text-base">Reviews</span>
+                        </Link>
+                    </div>
+                    <hr className="mx-2 border-t-1.5 mt-3 mb-3 rounded-xs border-gray-300" />
+                    <div className="px-5 flex flex-col gap-3">
+                        <Link href={`/reviews?filter=following`} onClick={closeSidebar}>
+                            <span className="px-1 font-[550] text-base">Following</span>
                         </Link>
                     </div>
                 </div>

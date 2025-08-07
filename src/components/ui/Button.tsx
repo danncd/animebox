@@ -2,7 +2,7 @@
 
 import React from "react";
 
-type ButtonColor = "gray" | "blue" | "red" | "white";
+type ButtonColor = "gray" | "blue" | "red" | "white" | "green";
 
 
 type ButtonProps = {
@@ -20,7 +20,7 @@ const getColorClasses = (color: ButtonColor) => {
 	if (color === "blue") return "bg-blue-600/95 hover:bg-blue-700 text-white";
 	if (color === "red") return "bg-red-600/90 hover:bg-red-600 text-white";
 	if (color === "white") return "bg-white hover:bg-gray-100 text-black border border-gray-300";
-    if (color === "green") return "bg-green-600/90 hover:bg-greeb-600 text-white";
+	if (color === "green") return "bg-[#7A9D1B]/90 hover:bg-[#739517] text-white";
 	return "";
 };
 

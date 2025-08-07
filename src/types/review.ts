@@ -18,5 +18,6 @@ export type Review = {
 	review_comments: { count: number }[];
 	anime?: {
 		title: string;
+		image_url: string;
 	} | null;
 };

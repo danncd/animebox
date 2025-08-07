@@ -34,7 +34,7 @@ const AnimePage = async ({ searchParams}: Props) => {
                 <AnimeSortBox/>
             </div>
             <AnimeContent animeList={animeList}/>
-            <div className="my-12">
+            <div className="my-6">
 				{count !== undefined && (
 					<Pagination
 						totalItems={count ?? 0}

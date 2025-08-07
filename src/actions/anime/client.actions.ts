@@ -82,13 +82,10 @@ export async function fetchSearchedAnime(
 		.eq("is_active", true);
 
 	if (tags.length > 0) {
-		const conditions = tags.flatMap((tag) => [
-			`genres.cs.{${tag}}`,
-			`themes.cs.{${tag}}`,
-		]);
-		queryBuilder = queryBuilder.or(conditions.join(","));
+		for (const tag of tags) {
+			queryBuilder = queryBuilder.or(`genres.cs.{${tag}},themes.cs.{${tag}}`);
+		}
 	}
-
 
 	if (season && year) {
 		queryBuilder = queryBuilder.ilike("premiered", `${season} ${year}`);

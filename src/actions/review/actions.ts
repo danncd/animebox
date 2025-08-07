@@ -65,7 +65,7 @@ export async function fetchAllReviews(sortOrder: "newest" | "oldest" = "newest")
                     username,
                     avatar_url
                 ),
-                anime:mal_id (title),
+                anime:mal_id (title, image_url),
                 review_likes:review_likes!review_likes_review_id_fkey (
                     profile_id
                 ),

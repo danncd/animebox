@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import Button from "../ui/Button";
 
 type PaginationProps = {
 	totalItems: number;
@@ -20,7 +21,6 @@ const Pagination = ({ totalItems, itemsPerPage }: PaginationProps) => {
 		params.set("page", page.toString());
 		router.push(`?${params.toString()}`);
 	};
-
 
 	const getPageNumbers = () => {
 		const range: (number | "...")[] = [];
@@ -53,27 +53,45 @@ const Pagination = ({ totalItems, itemsPerPage }: PaginationProps) => {
 	};
 
 	const pages = getPageNumbers();
-	
+
 	return (
 		<div className="flex justify-center items-center gap-1 flex-wrap">
+
+			{currentPage > 1 && (
+				<Button
+					onClick={() => goToPage(currentPage - 1)}
+					className="px-3 h-9 rounded-full font-[550] text-sm mr-4"
+				>
+					← Prev
+				</Button>
+			)}
+
+
 			{pages.map((page, idx) =>
 				page === "..." ? (
-					<span key={`ellipsis-${idx}`} className="px-2 text-gray-500 select-none">
+					<span key={`ellipsis-${idx}`} className="px-2 text-gray-500 select-none font-[550]">
 						...
 					</span>
 				) : (
-					<button
+					<Button
 						key={page}
 						onClick={() => goToPage(page)}
-						className={`px-2 py-1 rounded font-[550] text-sm cursor-pointer ${
-							page === currentPage
-								? "bg-blue-400 text-gray-900"
-								: "bg-gray-400/50 text-gray-900"
-						}`}
+						color={page === currentPage ? "blue" : "gray"}
+						className="!w-9 !h-9 text-sm !p-0 font-[550]"
 					>
 						{page}
-					</button>
+					</Button>
 				)
+			)}
+
+
+			{currentPage < totalPages && (
+				<Button
+					onClick={() => goToPage(currentPage + 1)}
+					className="px-3 h-9 rounded-full font-[550] text-sm ml-4"
+				>
+					Next →
+				</Button>
 			)}
 		</div>
 	);
