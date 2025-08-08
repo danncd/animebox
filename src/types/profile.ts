@@ -6,4 +6,5 @@ export type Profile = {
   joined_at: string;
   avatar_url?: string | null;
   description?: string | null;
+  avatar_updated_at: string | null;
 };

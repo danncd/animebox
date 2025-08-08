@@ -3,6 +3,8 @@ import Avatar from "../ui/Avatar";
 import { formatDate, getOverall, getScoreColor } from "@/actions/review/actions";
 import Link from "next/link";
 import Image from "next/image";
+import { NEW_USER_AVATAR } from "@/app/profile/components/ProfilePageInfo";
+import { getPublicAvatarUrl } from "@/actions/profile/actions";
 
 type Props = {
     reviewList: Review[];
@@ -15,7 +17,7 @@ const ReviewSectionContent = ({ reviewList, loading, type }: Props) => {
         <div className="flex flex-col gap-16">
             {reviewList.map((review) => (
                 <div key={review.id} className="flex flex-col gap-3">
-                    {(type === "all-reviews" || type === "user") &&
+                    {(type === "all-reviews" || type === "following" || type === "user") &&
                         <div className="mb-4 flex items-center text-gray-700 font-[600]">
                             <Link href={`/anime/${review.mal_id}`} className="relative group">
                                 <h3 className="flex-shrink-0">{review.anime?.title}</h3>
@@ -26,7 +28,7 @@ const ReviewSectionContent = ({ reviewList, loading, type }: Props) => {
                         </div>
                     }
                     <div className={`flex flex-row w-full gap-6`}>
-                        {(type === "all-reviews" || type === "user") && 
+                        {(type === "all-reviews" || type === "following" || type === "user") && 
                             <div className="hidden md:block">
                                 <Link href={`/anime/${review.mal_id}`}>
                                     <Image 
@@ -43,7 +45,7 @@ const ReviewSectionContent = ({ reviewList, loading, type }: Props) => {
                             <div className="flex flex-row gap-4">
                                 <Link href={`/profile/${review.profiles?.username}`}>
                                     <Avatar
-                                        avatarUrl={review.profiles?.avatar_url}
+                                        avatarUrl={getPublicAvatarUrl(review.profiles?.avatar_url, review.profiles?.avatar_updated_at) || NEW_USER_AVATAR}
                                         className="w-12 h-12"
                                     />
                                 </Link>

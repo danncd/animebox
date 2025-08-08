@@ -7,10 +7,12 @@ import HamburgerIcon from "../ui/HamburgerIcon";
 import { useRouter } from "next/navigation";
 import { getAnimeSeason } from "@/utils/getAnimeSeason";
 import Image from "next/image";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Sidebar = () => {
 
     const router = useRouter();
+    const { user } = useAuth();
 
     const { isSidebarOpen, closeSidebar } = useNavigation();
     const [searchTerm, setSearchTerm] = useState("");
@@ -88,12 +90,16 @@ const Sidebar = () => {
                             <span className="px-1 font-[550] text-base">Reviews</span>
                         </Link>
                     </div>
-                    <hr className="mx-2 border-t-1.5 mt-3 mb-3 rounded-xs border-gray-300" />
-                    <div className="px-5 flex flex-col gap-3">
-                        <Link href={`/reviews?filter=following`} onClick={closeSidebar}>
-                            <span className="px-1 font-[550] text-base">Following</span>
-                        </Link>
-                    </div>
+                    {user && (
+                        <>
+                            <hr className="mx-2 border-t-1.5 mt-3 mb-3 rounded-xs border-gray-300" />
+                            <div className="px-5 flex flex-col gap-3">
+                                <Link href={`/reviews?filter=following`} onClick={closeSidebar}>
+                                    <span className="px-1 font-[550] text-base">Following</span>
+                                </Link>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
 			<div className={`z-30 fixed top-0 left-0 h-screen backdrop-blur-[2px] bg-black/25 w-full transition-opacity duration-200 ease-in-out ${isSidebarOpen? "opacity-100 pointer-events-auto": "opacity-0 pointer-events-none"}`} onClick={closeSidebar}/>

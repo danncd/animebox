@@ -2,7 +2,9 @@
 
 import ReviewSection from "@/components/reviews/ReviewSection";
 import Button from "@/components/ui/Button";
+import { useAuth } from "@/contexts/AuthContext";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const ReviewsPage = () => {
     const searchParams = useSearchParams();
@@ -10,6 +12,15 @@ const ReviewsPage = () => {
 
     const filter = searchParams.get("filter") || "all";
     const normalizedFilter = filter.toLowerCase();
+    
+    const { user } = useAuth();
+
+    useEffect(() => {
+        if (normalizedFilter === "following" && user === null) {
+            router.push(`?filter=all`);
+        }
+    }, [normalizedFilter, user, router]);
+
     const filterStr = normalizedFilter.charAt(0).toUpperCase() + normalizedFilter.slice(1);
 
     const handleFilterClick = (type: "all" | "following") => {
@@ -31,16 +42,16 @@ const ReviewsPage = () => {
                 >
                     All
                 </Button>
-                <Button
+                {user && <Button
                     color={filter === "following" ? "blue" : "gray"}
                     className="font-[700]"
                     onClick={() => handleFilterClick("following")}
                 >
                     Following
-                </Button>
+                </Button>}
             </div>
 
-            <ReviewSection type={"all-reviews"} />
+            <ReviewSection type={filter === "all" ? "all-reviews" : "following"} />
         </div>
     );
 };

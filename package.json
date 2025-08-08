@@ -19,6 +19,7 @@
     "next": "15.4.5",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-image-crop": "^11.0.10",
     "supabase": "^2.33.9"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 'use client';
 
-import { checkIfFollowing, followUser, getFollowerProfiles, getFollowersCount, getFollowingCount, getFollowingProfiles, getUserReviewCount, unfollowUser } from "@/actions/profile/actions";
+import { checkIfFollowing, followUser, getFollowerProfiles, getFollowersCount, getFollowingCount, getFollowingProfiles, getPublicAvatarUrl, getUserReviewCount, unfollowUser } from "@/actions/profile/actions";
 import { formatDate } from "@/actions/review/actions";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
@@ -10,6 +10,7 @@ import { Profile } from "@/types/profile";
 import Image from 'next/image'
 import { useEffect, useState } from "react";
 import FollowerList from "./FollowerList";
+import Link from "next/link";
 
 export const NEW_USER_AVATAR = 'https://bdsfsiocacnfudhoikjs.supabase.co/storage/v1/object/public/avatars/main/newuser.png';
 export const AVATAR_URL = 'https://bdsfsiocacnfudhoikjs.supabase.co/storage/v1/object/public/avatars'
@@ -84,7 +85,7 @@ const ProfilePageInfo = ({ profile }: Props) => {
         <div className="sticky top-26 w-full md:w-fit flex flex-row md:flex-col items-start md:items-center justify-center gap-8 mt-4 mb-8">
             <div className="flex flex-col gap-6 justify-center items-start w-fit">
                 <Image
-                    src={`${AVATAR_URL}/${profile.avatar_url}` || NEW_USER_AVATAR}
+                    src={`${getPublicAvatarUrl(profile.avatar_url, profile.avatar_updated_at)}` || NEW_USER_AVATAR}
                     alt={`${profile.username} avatar`}
                     width={150}
                     height={150}
@@ -130,7 +131,7 @@ const ProfilePageInfo = ({ profile }: Props) => {
                             {isFollowing ? "Unfollow" : "Follow"}
                         </Button>
                     )}
-                    {user && user.id === profile.id && <Button>Edit</Button>}
+                    {user && user.id === profile.id && <Link href={`/profile/settings`}><Button>Edit</Button></Link>}
                 </div>
             </div>
             <div className="hidden md:flex flex-row gap-2">
@@ -139,7 +140,7 @@ const ProfilePageInfo = ({ profile }: Props) => {
                         {isFollowing ? "Unfollow" : "Follow"}
                     </Button>
                 )}
-                {user && user.id === profile.id && <Button>Edit</Button>}
+                {user && user.id === profile.id && <Link href={`/profile/settings`}><Button>Edit</Button></Link>}
             </div>
             <Modal isOpen={isOpen} onClose={closeModal}>
                 {modalType === "followers" && <FollowerList list={followerList} type="follower" pageProfile={profile}/>}

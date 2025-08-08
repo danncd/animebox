@@ -18,14 +18,15 @@ export async function fetchReviews({
                 *,
                 profiles:profiles!fk_profile (
                     username,
-                    avatar_url
+                    avatar_url,
+					avatar_updated_at
                 ),
                 anime:mal_id (title, image_url),
                 review_likes:review_likes!review_likes_review_id_fkey (
                     profile_id
                 ),
                 review_comments(count)
-            `
+            `,
 		)
 		.order("created_at", { ascending: sortOrder === "oldest" });
 
@@ -70,7 +71,9 @@ export const getOverall = (
 	return parseFloat(((story + animation + sounds) / 3).toFixed(1));
 };
 
-export async function fetchAllReviews(sortOrder: "newest" | "oldest" = "newest") {
+export async function fetchAllReviews(
+	sortOrder: "newest" | "oldest" = "newest",
+) {
 	const supabase = await createClient();
 
 	const { data, error } = await supabase
@@ -80,19 +83,73 @@ export async function fetchAllReviews(sortOrder: "newest" | "oldest" = "newest")
                 *,
                 profiles:profiles!fk_profile (
                     username,
-                    avatar_url
+                    avatar_url,
+					avatar_updated_at
                 ),
                 anime:mal_id (title, image_url),
                 review_likes:review_likes!review_likes_review_id_fkey (
                     profile_id
                 ),
                 review_comments(count)
-            `
+            `,
 		)
 		.order("created_at", { ascending: sortOrder === "oldest" });
 
 	if (error) {
 		console.error("Error fetching all reviews:", error.message);
+		return [];
+	}
+
+	return data;
+}
+
+export async function fetchFollowingReviews({
+	followingUserId,
+	sortOrder = "newest",
+}: {
+	followingUserId?: string;
+	sortOrder?: "newest" | "oldest";
+}) {
+	if (!followingUserId) return [];
+
+	const supabase = createClient();
+
+	const { data: followingIdsData, error: followError } = await supabase
+		.from("follows")
+		.select("following_id")
+		.eq("follower_id", followingUserId);
+
+	if (followError) {
+		console.error("Error fetching follows:", followError.message);
+		return [];
+	}
+
+	const followingIds = followingIdsData?.map((f) => f.following_id) || [];
+
+	if (followingIds.length === 0) return [];
+
+	const { data, error } = await supabase
+		.from("reviews")
+		.select(
+			`
+      *,
+      profiles:profiles!fk_profile (
+        username,
+        avatar_url,
+		avatar_updated_at
+      ),
+      anime:mal_id (title, image_url),
+      review_likes:review_likes!review_likes_review_id_fkey (
+        profile_id
+      ),
+      review_comments(count)
+      `,
+		)
+		.in("profile_id", followingIds)
+		.order("created_at", { ascending: sortOrder === "oldest" });
+
+	if (error) {
+		console.error("Error fetching following reviews:", error.message);
 		return [];
 	}
 

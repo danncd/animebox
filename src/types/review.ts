@@ -11,6 +11,7 @@ export type Review = {
 	profiles: {
 		username: string;
 		avatar_url: string | null;
+		avatar_updated_at: string | null;
 	} | null;
 	review_likes: {
 		profile_id: string;

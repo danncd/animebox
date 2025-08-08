@@ -91,7 +91,7 @@ export async function getFollowingProfiles(
 	const { data, error } = await supabase
 		.from("follows")
 		.select(
-			"following:following_id(id, username, name, email, joined_at, avatar_url, description)",
+			"following:following_id(id, username, name, email, joined_at, avatar_url, description, avatar_updated_at)",
 		)
 		.eq("follower_id", profileId);
 
@@ -111,7 +111,7 @@ export async function getFollowerProfiles(
 	const { data, error } = await supabase
 		.from("follows")
 		.select(
-			"follower:follower_id(id, username, name, email, joined_at, avatar_url, description)",
+			"follower:follower_id(id, username, name, email, joined_at, avatar_url, description, avatar_updated_at)",
 		)
 		.eq("following_id", profileId);
 
@@ -123,11 +123,29 @@ export async function getFollowerProfiles(
 	return data.flatMap((entry) => entry.follower);
 }
 
-export async function removeFollower(currentUserId: string, followerId: string) {
-  const supabase = createClient();
-  return supabase
-    .from("follows")
-    .delete()
-    .eq("follower_id", followerId)
-    .eq("following_id", currentUserId);
+export async function removeFollower(
+	currentUserId: string,
+	followerId: string,
+) {
+	const supabase = createClient();
+	return supabase
+		.from("follows")
+		.delete()
+		.eq("follower_id", followerId)
+		.eq("following_id", currentUserId);
 }
+
+export const getPublicAvatarUrl = (
+	filePath?: string | null,
+	updatedAt?: string | null,
+) => {
+	if (!filePath) return null;
+
+	const supabase = createClient();
+	const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
+
+	if (!data?.publicUrl) return null;
+
+	const version = updatedAt ? new Date(updatedAt).getTime() : "";
+	return version ? `${data.publicUrl}?v=${version}` : data.publicUrl;
+};

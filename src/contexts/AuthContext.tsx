@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { getPublicAvatarUrl } from "@/actions/profile/actions";
 
 type User = {
 	id: string;
@@ -29,7 +30,6 @@ export const AuthProvider = ({
 	children: React.ReactNode;
 	initialUser: User | null;
 }) => {
-
 	const [user, setUser] = useState<User | null>(initialUser);
 	const [userId, setUserId] = useState<string | null>(initialUser?.id ?? null);
 
@@ -70,7 +70,7 @@ export const AuthProvider = ({
 				email: profile.email,
 				name: profile.name,
 				username: profile.username,
-				avatar_url: profile.avatar_url,
+				avatar_url: getPublicAvatarUrl(profile.avatar_url, profile.avatar_updated_at),
 				description: profile.description,
 			});
 		};

@@ -3,8 +3,6 @@ import React from "react";
 
 const NEW_USER_AVATAR =
 	"https://bdsfsiocacnfudhoikjs.supabase.co/storage/v1/object/public/avatars/main/newuser.png";
-const AVATAR_BASE_URL =
-	"https://bdsfsiocacnfudhoikjs.supabase.co/storage/v1/object/public/avatars/";
 
 type AvatarProps = {
 	avatarUrl?: string | null;
@@ -14,7 +12,7 @@ type AvatarProps = {
 
 const Avatar = ({ avatarUrl, onClick, className = "" }: AvatarProps) => {
 	const src = avatarUrl
-		? `${AVATAR_BASE_URL}${avatarUrl}`
+		? `${avatarUrl}`
 		: NEW_USER_AVATAR;
 
 	return (

@@ -1,6 +1,6 @@
 'use client';
 
-import { fetchAllReviews, fetchReviews } from "@/actions/review/actions";
+import { fetchAllReviews, fetchFollowingReviews, fetchReviews } from "@/actions/review/actions";
 import { Anime } from "@/types/anime";
 import { Review } from "@/types/review";
 import { useEffect, useState } from "react";
@@ -13,7 +13,7 @@ type SortOption = "newest" | "oldest";
 type Props = {
     anime?: Anime;
     userProfile?: Profile;
-    type: "anime-page" | "all-reviews" | "user";
+    type: "anime-page" | "all-reviews" | "user" | "following";
 }
 
 const ReviewSection = ({ anime, type, userProfile }: Props) => {
@@ -49,6 +49,15 @@ const ReviewSection = ({ anime, type, userProfile }: Props) => {
                 setReviews(reviews);
 
             } 
+
+            else if (type === "following") {
+                if (!user) return;
+                const reviews = await fetchFollowingReviews({
+                    followingUserId: user.id,
+                    sortOrder,
+                });
+                setReviews(reviews);
+            }
             
             else if (type === "all-reviews") {
                 const reviews = await fetchAllReviews();
@@ -61,9 +70,11 @@ const ReviewSection = ({ anime, type, userProfile }: Props) => {
         fetch();
     }, [mal_id, type, sortOrder, user?.id]);
 
+    if (loading) return "";
+
     return (
         <div>
-            {type != "all-reviews" && reviews.length > 0 && (
+            {type != "all-reviews" && type != "following" && reviews.length > 0 && (
                 <div className="w-fit bg-gray-200 rounded py-[2px] px-2 mb-8">
                     <select
                         className="w-28 text-sm font-[550] text-gray-800 cursor-pointer focus:outline-none bg-gray-200"
