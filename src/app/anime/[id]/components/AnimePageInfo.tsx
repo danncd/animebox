@@ -43,7 +43,7 @@ const AnimePageInfo = ({ anime }: Props) => {
 						className="flex flex-row justify-between px-4"
 					>
 						<span className="font-[550] text-base">{label}</span>
-						<span className="text-right text-gray-600">{value}</span>
+						<span className="text-right text-gray-700">{value}</span>
 					</div>
 				))}
 			</div>
