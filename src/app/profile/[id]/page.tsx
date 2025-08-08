@@ -1,7 +1,9 @@
 import { Profile } from "@/types/profile";
 import { createClient } from "@/utils/supabase/client";
 import { notFound } from "next/navigation";
-import ProfilePageContent from "../components/ProfilePageContent";
+import ProfilePageInfo from "../components/ProfilePageInfo";
+import ReviewSection from "@/components/reviews/ReviewSection";
+import { ProfileModalProvider } from "@/contexts/ProfileModalContext";
 
 type Props = {
     params: Promise<{ id: string }>;
@@ -24,10 +26,21 @@ const ProfilePage = async ({ params }: Props) => {
     }
 
     return (
-        <div className='max-w-[1200px] mx-auto px-4'>
-            <ProfilePageContent profile={userProfile}/>
-            Reviewed anime page
-        </div>
+        <ProfileModalProvider>
+            <div className='h-full max-w-[1200px] mx-auto px-4'>
+                <div className="h-full w-full flex flex-col md:flex-row md:gap-12 items-stretch">
+                    <div className="shrink-0">
+                        <ProfilePageInfo profile={userProfile}/>
+                    </div>
+                    <div className="w-full">
+                        <div className="mb-6">
+                            <h2 className="text-2xl font-bold">Reviews History</h2>
+                        </div>
+                        <ReviewSection type="user" userProfile={userProfile}/>
+                    </div>
+                </div>
+            </div>
+        </ProfileModalProvider>
     );
 };
 

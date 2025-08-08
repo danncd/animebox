@@ -1,20 +1,22 @@
 'use client';
 
-import { fetchAllReviews, fetchReviewsByAnimeId } from "@/actions/review/actions";
+import { fetchAllReviews, fetchReviews } from "@/actions/review/actions";
 import { Anime } from "@/types/anime";
 import { Review } from "@/types/review";
 import { useEffect, useState } from "react";
 import ReviewSectionContent from "./ReviewSectionContent";
 import { useAuth } from "@/contexts/AuthContext";
+import { Profile } from "@/types/profile";
 
 type SortOption = "newest" | "oldest";
 
 type Props = {
     anime?: Anime;
-    type: "anime-page" | "all-reviews";
+    userProfile?: Profile;
+    type: "anime-page" | "all-reviews" | "user";
 }
 
-const ReviewSection = ({ anime, type }: Props) => {
+const ReviewSection = ({ anime, type, userProfile }: Props) => {
 
     const [reviews, setReviews] = useState<Review[]>([]);
     const [loading, setLoading] = useState(true);
@@ -28,7 +30,7 @@ const ReviewSection = ({ anime, type }: Props) => {
             setLoading(true);
 
             if (type === "anime-page") {
-                let reviews = await fetchReviewsByAnimeId(mal_id, sortOrder);
+                let reviews = await fetchReviews({ mal_id, sortOrder });
 
                 if (user) {
                     const userReview = reviews.find((review) => review.profile_id === user.id);
@@ -39,7 +41,16 @@ const ReviewSection = ({ anime, type }: Props) => {
                     }
                 }
                 setReviews(reviews);
-            } else if (type === "all-reviews") {
+            }
+            
+            else if (type === "user") {
+                const userId = userProfile?.id;
+                const reviews = await fetchReviews({ mal_id, userId, sortOrder });
+                setReviews(reviews);
+
+            } 
+            
+            else if (type === "all-reviews") {
                 const reviews = await fetchAllReviews();
                 setReviews(reviews);
             }

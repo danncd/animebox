@@ -1,9 +1,17 @@
 import { createClient } from "@/utils/supabase/client";
 
-export async function fetchReviewsByAnimeId(mal_id: number, sortOrder: "newest" | "oldest" = "newest") {
-	const supabase = await createClient();
+export async function fetchReviews({
+	mal_id,
+	userId,
+	sortOrder = "newest",
+}: {
+	mal_id?: number;
+	userId?: string;
+	sortOrder?: "newest" | "oldest";
+}) {
+	const supabase = createClient();
 
-	const { data, error } = await supabase
+	let query = supabase
 		.from("reviews")
 		.select(
 			`
@@ -12,15 +20,24 @@ export async function fetchReviewsByAnimeId(mal_id: number, sortOrder: "newest" 
                     username,
                     avatar_url
                 ),
-                anime:mal_id (title),
+                anime:mal_id (title, image_url),
                 review_likes:review_likes!review_likes_review_id_fkey (
                     profile_id
                 ),
                 review_comments(count)
-            `,
+            `
 		)
-		.eq("mal_id", mal_id)
 		.order("created_at", { ascending: sortOrder === "oldest" });
+
+	if (mal_id) {
+		query = query.eq("mal_id", mal_id);
+	}
+
+	if (userId) {
+		query = query.eq("profile_id", userId);
+	}
+
+	const { data, error } = await query;
 
 	if (error) {
 		console.error("Error fetching reviews:", error.message);

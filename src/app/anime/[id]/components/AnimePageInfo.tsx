@@ -23,18 +23,18 @@ const AnimePageInfo = ({ anime }: Props) => {
 			<div className="relative grid grid-cols-2 md:grid-cols-3 gap-8 my-4 w-full max-w-[1080px] items-center justify-center">
 				{/* Vertical split dividers */}
 				<div className="hidden md:flex flex-col items-center absolute left-1/3 top-0 bottom-0">
-					<div className="w-px h-[35%] bg-gray-300" />
+					<div className="w-[1.5px] rounded-full h-[35%] bg-gray-300" />
 					<div className="h-[30%]" />
-					<div className="w-px h-[35%] bg-gray-300" />
+					<div className="w-[1.5px] rounded-full h-[35%] bg-gray-300" />
                     <div className="h-[30%]" />
-					<div className="w-px h-[35%] bg-gray-300" />
+					<div className="w-[1.5px] rounded-full h-[35%] bg-gray-300" />
 				</div>
 				<div className="hidden md:flex flex-col items-center absolute left-2/3 top-0 bottom-0">
-					<div className="w-px h-[35%] bg-gray-300" />
+					<div className="w-[1.5px] rounded-full h-[35%] bg-gray-300" />
 					<div className="h-[30%]" />
-					<div className="w-px h-[35%] bg-gray-300" />
+					<div className="w-[1.5px] rounded-full h-[35%] bg-gray-300" />
                     <div className="h-[30%]" />
-					<div className="w-px h-[35%] bg-gray-300" />
+					<div className="w-[1.5px] rounded-full h-[35%] bg-gray-300" />
 				</div>
 
 				{infoList.map(({ label, value }, index) => (
