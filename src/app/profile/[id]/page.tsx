@@ -34,7 +34,7 @@ const ProfilePage = async ({ params }: Props) => {
                     </div>
                     <div className="w-full">
                         <div className="mb-6">
-                            <h2 className="text-2xl font-bold">Reviews History</h2>
+                            <h2 className="text-2xl font-bold">Review History</h2>
                         </div>
                         <ReviewSection type="user" userProfile={userProfile}/>
                     </div>
