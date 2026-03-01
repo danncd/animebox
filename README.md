@@ -1,5 +1,5 @@
 # Animebox
-Random palette generator.
+Anime review website
 \
 Link: <a href="https://animebox.danncd.com/" target="_blank">Animebox</a>
 
