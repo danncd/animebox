@@ -1,5 +1,5 @@
 <h1>Animebox</h1>
-<p>Animebox is a review platform where users can explore seasonal animes as well as to engage with the community through reviews.</p>
+<p>A full-stack web app for discovering seasonal anime releases and engaging with the community through reviews and ratings.</p>
 <p>As of now, the website contains the current features:</p>
 <ul>
   <li>Seasonal anime exploration</li>
