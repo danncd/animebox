@@ -9,7 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {
-	title: "Animebox",
+	title: "Anime Index",
 	description: "See what others think of your favorite animes!",
 	keywords: [
 		"anime",
@@ -18,13 +18,13 @@ export const metadata: Metadata = {
 		"anime ratings",
 		"animebox",
 	],
-	creator: "Animebox",
+	creator: "Anime Index | Animes & Reviews",
 	twitter: {
 		card: "summary_large_image",
 		title: "Animebox",
 		description: "See what others think of your favorite animes!",
-		site: "@animebox",
-		creator: "@animebox",
+		site: "@animeindex",
+		creator: "@animeindex",
 	},
 
 	icons: {
