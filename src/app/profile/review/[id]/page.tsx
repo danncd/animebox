@@ -25,7 +25,7 @@ const UserReviewPage = async ({ params }: Props) => {
 	}
 
 	return (
-        <div className='max-w-[1200px] mx-auto px-4'>
+        <div className='max-w-190 mx-auto px-4'>
             <div>
                 <h1 className="font-[600] text-2xl">Write a Review</h1>
                 <Link href={`/anime/${anime.mal_id}`}><h2 className="text-base font-[550] text-gray-500">{anime.title}</h2></Link>

@@ -16,7 +16,7 @@ export default function Editor({ content, onChange }: EditorProps) {
 		content,
 		editorProps: {
 			attributes: {
-				class: "max-h-[50rem] min-h-[max(20rem,calc(100vh-26rem))] focus:outline-none p-3 rounded-md border border-gray-300 prose",
+				class: "min-h-60 focus:outline-none p-3 rounded-md border border-gray-300 prose",
 			},
 		},
 		immediatelyRender: false,

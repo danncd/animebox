@@ -50,11 +50,11 @@ export default async function RootLayout({
 		<html lang="en">
 			<body
 				suppressHydrationWarning
-				className={` ${poppins.className} antialiased`}
+				className={`${poppins.className} antialiased`}
 			>
 				<AuthProvider initialUser={initialUser}>
 					<Navigation />
-					<div className="min-h-[100vh] w-full mx-auto pt-22 text-gray-900 ">
+					<div className="min-h-[100vh] w-full mx-auto text-gray-900 ">
 						{children}
 						<Analytics/>
 						<SpeedInsights />

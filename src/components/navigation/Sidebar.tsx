@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import HamburgerIcon from "../ui/HamburgerIcon";
 import { useRouter } from "next/navigation";
 import { getAnimeSeason } from "@/utils/getAnimeSeason";
-import Image from "next/image";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Sidebar = () => {
@@ -57,8 +56,7 @@ const Sidebar = () => {
                     <Link href={`/`} className="flex items-center gap-5 cursor-pointer h-16">
                         <HamburgerIcon/>
                         <div className="fixed font-bold text-xl text-center w-full left-0 flex flex-row gap-2 justify-center pl-2">
-                            <Image src="/logo.png" width={28} height={28} draggable={false} alt="Logo" />
-                            <span>ANIMEBOX</span>
+                            <span>Anime Index</span>
                         </div>
                     </Link>
                 </div>

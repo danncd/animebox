@@ -1,6 +1,6 @@
 import { Review } from "@/types/review";
 import Avatar from "../ui/Avatar";
-import { formatDate, getOverall, getScoreColor } from "@/actions/review/actions";
+import { formatDate, getScoreColor } from "@/actions/review/actions";
 import Link from "next/link";
 import Image from "next/image";
 import { NEW_USER_AVATAR } from "@/app/profile/components/ProfilePageInfo";
@@ -42,52 +42,40 @@ const ReviewSectionContent = ({ reviewList, loading, type }: Props) => {
                             </div>
                         }
                         <div className="w-full">
-                            <div className="flex flex-row gap-4">
-                                <Link href={`/profile/${review.profiles?.username}`}>
-                                    <Avatar
-                                        avatarUrl={getPublicAvatarUrl(review.profiles?.avatar_url, review.profiles?.avatar_updated_at) || NEW_USER_AVATAR}
-                                        className="w-12 h-12"
-                                    />
-                                </Link>
-                                <div className="flex flex-col gap-0 justify-center">
+                            <div className="flex flex-row gap-4 justify-between">
+                                <div className="flex flex-row gap-4">
                                     <Link href={`/profile/${review.profiles?.username}`}>
-                                        <span className="font-[600]">{review.profiles?.username}</span>
+                                        <Avatar
+                                            avatarUrl={getPublicAvatarUrl(review.profiles?.avatar_url, review.profiles?.avatar_updated_at) || NEW_USER_AVATAR}
+                                            className="w-12 h-12"
+                                        />
                                     </Link>
-                                    {review.updated_at ? (
-                                        <span className="text-sm text-gray-500">{formatDate(review.updated_at)} (Edited)</span>
-                                    ) : (
-                                        <span className="text-sm text-gray-500">{formatDate(review.created_at)}</span>
-                                    )}
+                                    <div className="flex flex-col gap-0 justify-center">
+                                        <Link href={`/profile/${review.profiles?.username}`}>
+                                            <span className="font-[600]">{review.profiles?.username}</span>
+                                        </Link>
+                                        {review.updated_at ? (
+                                            <span className="text-sm text-gray-500">{formatDate(review.updated_at)} (Edited)</span>
+                                        ) : (
+                                            <span className="text-sm text-gray-500">{formatDate(review.created_at)}</span>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="w-full my-3">
-                                <div className="max-w-[720px] px-4 w-full mx-auto flex flex-wrap flex-1 justify-between">
-                                    {Object.entries({
-                                        Animation: review.animation_score,
-                                        Sound: review.sound_score,
-                                        Story: review.story_score,
-                                    }).map(([label, value]) => (
-                                        <div key={label} className="flex flex-col items-center">
-                                            <span className={`font-black text-2xl ${getScoreColor(value)}`}>{value}</span>
-                                            <span className="text-gray-700 text-xs">{label}</span>
-                                        </div>
-                                    ))}
-                                    <div key="overall" className="flex flex-col items-center">
-                                            <span 
-                                                className={`font-black text-2xl ${getScoreColor(getOverall(review.animation_score, review.sound_score, review.story_score))}`}
-                                            >
-                                                {getOverall(
-                                                    review.story_score,
-                                                    review.animation_score,
-                                                    review.sound_score,
-                                                )}
-                                            </span>
-                                            <span className="text-gray-700 text-xs">Overall</span>
+                                <div className="">
+                                    <div className="max-w-[720px] px-4 w-full mx-auto flex flex-wrap flex-1 justify-between">
+                                        {Object.entries({
+                                            Rating: review.animation_score,
+                                        }).map(([label, value]) => (
+                                            <div key={label} className="flex flex-col items-center">
+                                                <span className={`font-black text-2xl ${getScoreColor(value)}`}>{value}</span>
+                                                <span className="text-gray-700 text-xs">{label}</span>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
                             <p
-                                className="prose [&>p:empty]:min-h-[1rem]"
+                                className="prose [&>p:empty]:min-h-[1rem] mt-4"
                                 dangerouslySetInnerHTML={{ __html: review.content }}
                             />
                         </div>

@@ -82,18 +82,18 @@ const ProfilePageInfo = ({ profile }: Props) => {
 	};
 
     return (
-        <div className="sticky top-26 w-full md:w-fit flex flex-row md:flex-col items-start md:items-center justify-center gap-8 mt-4 mb-8">
+        <div className="flex flex-row items-start gap-8 mt-4">
             <div className="flex flex-col gap-6 justify-center items-start w-fit">
                 <Image
                     src={`${getPublicAvatarUrl(profile.avatar_url, profile.avatar_updated_at)}` || NEW_USER_AVATAR}
                     alt={`${profile.username} avatar`}
-                    width={150}
-                    height={150}
-                    className="rounded-full w-25 h-25 md:w-40 md:h-40"
+                    width={90}
+                    height={90}
+                    className="rounded-full w-35 h-35"
                 />
             </div>
-            <div className="md:flex md:flex-col md:justify-center md:items-center md:gap-6 flex flex-col gap-4 md:mb-2">
-                <div className="md:text-center flex flex-col gap-0">
+            <div className="flex flex-col gap-4 md:mb-2">
+                <div className="flex flex-col gap-0">
                     <h1 className="font-bold text-lg">{profile.username}</h1>
                     <span className="text-xs text-gray-600">
                         Joined {formatDate(profile.joined_at)}
@@ -125,7 +125,7 @@ const ProfilePageInfo = ({ profile }: Props) => {
                         <span className="text-xs font-[500] text-gray-700">following</span>
                     </div>
                 </div>
-                <div className="md:hidden flex flex-row gap-2">
+                <div className="flex flex-row gap-2">
                     {user && user.id !== profile.id && (
                         <Button onClick={handleToggleFollow}>
                             {isFollowing ? "Unfollow" : "Follow"}
@@ -133,14 +133,6 @@ const ProfilePageInfo = ({ profile }: Props) => {
                     )}
                     {user && user.id === profile.id && <Link href={`/profile/settings`}><Button>Edit</Button></Link>}
                 </div>
-            </div>
-            <div className="hidden md:flex flex-row gap-2">
-                {user && user.id !== profile.id && (
-                    <Button onClick={handleToggleFollow}>
-                        {isFollowing ? "Unfollow" : "Follow"}
-                    </Button>
-                )}
-                {user && user.id === profile.id && <Link href={`/profile/settings`}><Button>Edit</Button></Link>}
             </div>
             <Modal isOpen={isOpen} onClose={closeModal}>
                 {modalType === "followers" && <FollowerList list={followerList} type="follower" pageProfile={profile}/>}

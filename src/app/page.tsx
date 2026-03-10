@@ -9,8 +9,7 @@ const Homepage = () => {
 
     return (
         <div className="w-full">
-            <Banner/>
-            <div className="max-w-[1200px] mx-auto px-4 my-10">
+            <div className="max-w-190 mx-auto px-4 my-5">
                 <div className="flex flex-col gap-6">
                     <div className="flex flex-col gap-6">
                         <h2 className="text-2xl font-bold">Trending Anime</h2>

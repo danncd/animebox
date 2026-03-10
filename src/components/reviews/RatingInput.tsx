@@ -7,7 +7,11 @@ type RatingInputProps = {
 };
 
 const RatingInput = ({ label, value, onChange }: RatingInputProps) => (
-	<div className="flex flex-col items-center justify-center gap-2">
+	<div className="flex flex-row items-center justify-center gap-8">
+		<span className="font-gray-900 font-[550] text-lg text-center rounded-l-full">
+			{label}
+		</span>
+		<span className="h-1 w-1 bg-black rounded-full"></span>
 		<div className="">
 			<input
 				required
@@ -20,9 +24,6 @@ const RatingInput = ({ label, value, onChange }: RatingInputProps) => (
 			/>
 			<span className="font-bold text-base">/ 10</span>
 		</div>
-		<span className="font-gray-900 font-[550] text-sm py-1.5 min-w-23 text-center rounded-l-full">
-			{label}
-		</span>
 	</div>
 );
 

@@ -70,7 +70,6 @@ const ReviewSection = ({ anime, type, userProfile }: Props) => {
         fetch();
     }, [mal_id, type, sortOrder, user?.id]);
 
-    if (loading) return "";
 
     return (
         <div>

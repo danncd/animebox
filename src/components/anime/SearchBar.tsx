@@ -92,21 +92,21 @@ const SearchBar = () => {
 					type="text"
 					value={searchTerm}
 					onChange={(e) => setSearchTerm(e.target.value)}
-					className="border border-gray-300 bg-white rounded-full px-4 py-2 w-full focus:outline-none"
+					className="border border-gray-300 bg-white rounded-full px-4 py-1 w-full focus:outline-none"
 					placeholder="Search anime..."
 				/>
                 <div className="flex flex-row gap-2 w-full flex-1">
                     <Button
                     type="submit"
                     color="blue"
-                    className="!py-2 !min-w-35 w-full"
+                    className="!py-1 w-full"
                 >
                         Search
                 </Button>
                 <Button
                     type="button"
                     onClick={() => setFiltersVisible(!filtersVisible)}
-                    className="whitespace-nowrap !py-2 !min-w-35 w-full"
+                    className="whitespace-nowrap !py-1 w-full"
                 >
                         {filtersVisible ? "Hide Filters" : "Show Filters"}
                 </Button>

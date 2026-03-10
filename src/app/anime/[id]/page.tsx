@@ -16,7 +16,7 @@ const AnimePage = async ({ params, }: Props) => {
 	}
 
     return (
-        <div className='max-w-[1200px] mx-auto px-4'>
+        <div className='max-w-190 mx-auto px-4'>
             <AnimePageContent mal_id={Number(id)}/>
         </div>
     );

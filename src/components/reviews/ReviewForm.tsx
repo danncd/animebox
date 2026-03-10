@@ -8,11 +8,14 @@ import ReviewRatings from "./ReviewRatings";
 import Button from "../ui/Button";
 import { useAuth } from "@/contexts/AuthContext";
 import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 
 type Props = {
 	anime: Anime;
 };
 const ReviewForm = ({ anime }: Props) => {
+
+	const router = useRouter();
 	const [story, setStory] = useState<number | "">(0);
 	const [animation, setAnimation] = useState<number | "">(0);
 	const [sound, setSound] = useState<number | "">(0);
@@ -39,7 +42,7 @@ const ReviewForm = ({ anime }: Props) => {
 				setStory(data.story_score);
 				setAnimation(data.animation_score);
 				setSound(data.sound_score);
-				setEditorContent(data.content);
+				setEditorContent(data.content ?? "");
 			}
 		};
 
@@ -62,16 +65,12 @@ const ReviewForm = ({ anime }: Props) => {
 			return;
 		}
 
-		const textOnly = editorContent
+		const textOnly = (editorContent ?? "")
 			.replace(/<[^>]+>/g, "")
 			.replace(/&nbsp;/g, "")
 			.trim();
-		if (!textOnly) {
-			setError("Review content is required.");
-			return;
-		}
 
-		const paragraphBlocks = editorContent.match(/<p>(.*?)<\/p>/g) || [];
+		const paragraphBlocks = (editorContent ?? "").match(/<p>(.*?)<\/p>/g) || [];
 		let consecutiveEmpty = 0;
 		for (const p of paragraphBlocks) {
 			const inner = p
@@ -92,10 +91,8 @@ const ReviewForm = ({ anime }: Props) => {
 		const reviewData = {
 			profile_id: user.id,
 			mal_id: anime.mal_id,
-			content: editorContent,
+			content: textOnly ? editorContent : null,
 			story_score: Math.min(Number(story), 10),
-			animation_score: Math.min(Number(animation), 10),
-			sound_score: Math.min(Number(sound), 10),
 		};
 
 		let error;
@@ -111,7 +108,7 @@ const ReviewForm = ({ anime }: Props) => {
 		if (error) {
 			setError("Error saving review: " + error.message);
 		} else {
-			window.location.reload();
+			router.push(`/anime/${anime.mal_id}`)
 		}
 	};
 
@@ -126,7 +123,7 @@ const ReviewForm = ({ anime }: Props) => {
 		if (error) {
 			setError("Error deleting review: " + error.message);
 		} else {
-			window.location.reload();
+			router.push(`/anime/${anime.mal_id}`)
 		}
 	};
 
@@ -137,8 +134,6 @@ const ReviewForm = ({ anime }: Props) => {
 				animation={animation}
 				sound={sound}
 				setStory={setStory}
-				setAnimation={setAnimation}
-				setSound={setSound}
 			/>
 			<ReviewEditor
 				content={editorContent}
@@ -151,7 +146,7 @@ const ReviewForm = ({ anime }: Props) => {
 				{existingReview && (
 					<Button
 						color="red"
-						className="!py-2 !px-12 flex-0 whitespace-nowrap"
+						className="!py-1 !px-6 flex-0 whitespace-nowrap"
 						onClick={handleDelete}
 					>
 						Delete
@@ -159,7 +154,7 @@ const ReviewForm = ({ anime }: Props) => {
 				)}
 				<Button
 					color="blue"
-					className="!py-2 !px-12 flex-0 whitespace-nowrap"
+					className="!py-1 !px-6 flex-0 whitespace-nowrap"
 					onClick={handleSubmit}
 				>
 					Save Review

@@ -33,7 +33,7 @@ export default function Button({
 	type = "button"
 }: ButtonProps) {
 	const baseClasses =
-		"px-4 py-[4px] rounded-full text-[15pxs] font-[550] transition-all duration-300 cursor-pointer w-auto box-border";
+		"px-4 py-[4px] rounded-md text-[15pxs] font-[550] transition-all duration-300 cursor-pointer w-auto box-border";
 
 	const disabledClasses = disabled ? "opacity-50 cursor-not-allowed" : "";
 

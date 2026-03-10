@@ -24,7 +24,7 @@ const AnimePage = async ({ searchParams}: Props) => {
 
 
     return (
-        <div className="max-w-[1200px] mx-auto px-4">
+        <div className="max-w-190 mx-auto px-4">
             <div className="">
                 <h1 className="font-bold text-2xl">Browse Anime</h1>
                 <h2 className="text-base font-[550] text-gray-500">Leave a review on your favorite anime</h2>

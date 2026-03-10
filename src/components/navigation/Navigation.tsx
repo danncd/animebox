@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 const Navigation = () => {
     return (
         <NavigationProvider>
-            <div className="w-full bg-white/85 backdrop-blur-sm h-16 fixed top-0 left-0 shadow-sm z-29">
+            <div className="max-w-190 mx-auto h-16 z-29 mb-4">
                 <NavigationBar/>
             </div>
             <Sidebar/>

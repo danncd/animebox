@@ -45,7 +45,7 @@ const SeasonPage = async ({ params, searchParams }: Props) => {
     const { data: animeList, count: count } = await fetchSearchedAnime(query || "", sort || "", tags, page, season, year);
 
     return (
-        <div className='max-w-[1200px] mx-auto px-4'>
+        <div className='max-w-190 mx-auto px-4'>
             <div className="mb-6">
                 <h1 className="font-bold text-2xl">{season} {year}</h1>
                 <h2 className="text-base font-[550] text-gray-500">Browse anime airing this season</h2>

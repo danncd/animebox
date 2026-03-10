@@ -9,7 +9,7 @@ type Props = {
 const AnimePageDescriptionTags = ({ anime }: Props) => {
 	return (
 		<div className="flex flex-col gap-3">
-			<div className="flex flex-col gap-4 py-2">
+			<div className="flex flex-col gap-2">
 				<h3 className="font-[550] text-[18px]">Overview</h3>
 				<p>{anime.synopsis}</p>
 			</div>
