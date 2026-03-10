@@ -24,7 +24,7 @@ const Left = () => {
 	};
 
 	return (
-		<div className="flex flex-row items-center md:gap-4 gap2">
+		<div className="flex flex-row items-center md:gap-2 gap-2">
 			<button onClick={openSidebar}>
 				<HamburgerIcon />
 			</button>
@@ -39,7 +39,7 @@ const Left = () => {
 			<input
 				type="text"
 				placeholder="Search anime..."
-				className="mr-5 hidden md:block px-3 py-[3px] w-30 md:w-40 rounded-full border border-gray-300 focus:outline-none"
+				className="ml-4 hidden md:block px-3 py-[3px] w-30 md:w-40 rounded-full border border-gray-300 focus:outline-none"
 				value={searchTerm}
 				onChange={(e) => setSearchTerm(e.target.value)}
 				onKeyDown={handleKeyDown}
