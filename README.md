@@ -1,7 +1,3 @@
-# Animebox
-Random palette generator.
-\
-Link: <a href="https://animebox.danncd.com/" target="_blank">Animebox</a>
-
-## Built with
-[![Built with](https://skillicons.dev/icons?i=ts,html,tailwind,supabase)](https://skillicons.dev)
+<h1>Anime Index</h1>
+<p>A full-stack web app for discovering seasonal anime releases and engaging with the community through reviews and ratings.
+The website was built using Next.js, TypeScript, TalwindCSS, and Supabase.</p>
