@@ -27,8 +27,8 @@ const ProfilePage = async ({ params }: Props) => {
 
     return (
         <ProfileModalProvider>
-            <div className='h-full max-w-190 mx-auto px-4'>
-                <div className="h-full w-full flex flex-col md:gap-12 items-stretch">
+            <div className='h-full max-w-190 mș-auto px-4'>
+                <div className="h-full w-full flex flex-col gap-12 items-stretch">
                     <div className="shrink-0">
                         <ProfilePageInfo profile={userProfile}/>
                     </div>
