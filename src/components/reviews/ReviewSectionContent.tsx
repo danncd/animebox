@@ -63,14 +63,10 @@ const ReviewSectionContent = ({ reviewList, loading, type }: Props) => {
                                 </div>
                                 <div className="">
                                     <div className="max-w-[720px] px-4 w-full mx-auto flex flex-wrap flex-1 justify-between">
-                                        {Object.entries({
-                                            Rating: review.animation_score,
-                                        }).map(([label, value]) => (
-                                            <div key={label} className="flex flex-col items-center">
-                                                <span className={`font-black text-2xl ${getScoreColor(value)}`}>{value}</span>
-                                                <span className="text-gray-700 text-xs">{label}</span>
-                                            </div>
-                                        ))}
+                                        <div className="flex flex-col items-center">
+                                            <span className={`font-black text-2xl ${getScoreColor(review.story_score)}`}>{review.story_score || "-"}</span>
+                                            <span className="text-gray-700 text-xs">Rating</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
